@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class EndSpawner : MonoBehaviour
 {
-   protected virtual void OnCollisionEnter2D(Collision2D other)
+   [SerializeField] protected LayerMask targetLayer;
+   protected virtual void OnTriggerEnter2D(Collider2D other)
    {
-        Destroy(other.gameObject);
+    
+        if(targetLayer == (targetLayer | (1 << other.gameObject.layer)))
+        {
+            Destroy(other.gameObject);
+        }
    }
 }

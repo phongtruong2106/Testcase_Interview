@@ -8,6 +8,10 @@ public class Spawner : NewMonoBehaviour
     [SerializeField] protected float height = 5f;
     [SerializeField] protected TileController tileController;
 
+    [SerializeField] protected float normalTileWeight = 1f;
+    [SerializeField] protected float pressAndHoldTileWeight = 1f;
+    [SerializeField] protected float delay = 0.5f;
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -16,7 +20,7 @@ public class Spawner : NewMonoBehaviour
 
     protected override void Start()
     {
-        this.spawner();
+        this.spawnuntill();
     }
     protected virtual void Update()
     {
@@ -38,14 +42,43 @@ public class Spawner : NewMonoBehaviour
     }
 
     protected virtual void spawner()
-    {
-        foreach(Transform child in transform)
+    {   
+        //tam thoi
+        foreach (Transform child in transform)
         {
-            foreach(GameObject tileList in tileController._tileList._tileList)
+            float randomValue = Random.Range(0f, 100f);
+            if (randomValue < (normalTileWeight / (normalTileWeight + pressAndHoldTileWeight)) * 100)
             {
-                GameObject tile = Instantiate(tileList, child.position, Quaternion.identity);
-                tile.transform.parent = child;
-            } 
+                Instantiate(tileController._tileList._normalTile, child.position, Quaternion.identity, child);
+            }
+            else
+            {
+                Instantiate(tileController._tileList._pressAndHoldTile, child.position, Quaternion.identity, child);
+            }
+        }
+    }
+    protected virtual void spawnuntill()
+    {
+        Transform position = freeposition();
+        if(position)
+        {
+            float randomValue = Random.Range(0f, 100f);
+            if (randomValue < (normalTileWeight / (normalTileWeight + pressAndHoldTileWeight)) * 100)
+            {
+                GameObject tileNormal = Instantiate(tileController._tileList._normalTile, position.transform.position, Quaternion.identity);
+                tileNormal.transform.parent = position;
+            }
+            else
+            {
+                GameObject tilePressAndHold = Instantiate(tileController._tileList._pressAndHoldTile,position.transform.position, Quaternion.identity);
+                tilePressAndHold.transform.parent = position;
+            }
+            // GameObject tile = Instantiate(tileController._tileList._normalTile, position.transform.position, Quaternion.identity);
+            // tile.transform.parent = position;
+        }
+        if(freeposition())
+        {
+            Invoke("spawnuntill", delay);
         }
     }
 
@@ -64,7 +97,19 @@ public class Spawner : NewMonoBehaviour
     protected virtual void CheckSpawner(){
         if(CheckForEmpty())
         {
-            this.spawner();
+            this.spawnuntill();
         }
+    }
+
+    protected virtual Transform freeposition()
+    {
+        foreach(Transform child in transform)
+        {
+            if(child.childCount == 0)
+            {
+                return child;
+            }
+        }
+        return null;
     }
 }
