@@ -1,18 +1,11 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class TileNormal : IOClickEvent
+public class TileNormal : Tile
 {
-    public override void ClickEvent()
+    [SerializeField] protected SpriteRenderer color;
+    protected virtual void OnMouseOver()
     {
-        throw new System.NotImplementedException();
-    }
-
-    protected virtual void OneClick()
-    {
-        if(Input.GetMouseButton(0))  
-        {
-            Destroy(gameObject);
-        }
+        color.color = Color.white;
     }
 }

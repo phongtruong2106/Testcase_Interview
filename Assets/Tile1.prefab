@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedfall: 10
+  color: {fileID: 2119977050937145523}
 --- !u!50 &-6174738953691470318
 Rigidbody2D:
   serializedVersion: 4
