@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileController : MonoBehaviour
+public class TileController : NewMonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] protected TileList tileList;
+    public TileList _tileList => tileList;
+
+    protected override void LoadComponents()
     {
-        
+        base.LoadComponents();
+        this.LoadTileList();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void LoadTileList()
     {
-        
+        if(this.tileList != null)
+        {
+            if(this.tileList != null) return;
+            this.tileList = transform.GetComponentInChildren<TileList>();
+            Debug.Log(transform.name + ": LoadTileList()", gameObject);
+        }
     }
 }
