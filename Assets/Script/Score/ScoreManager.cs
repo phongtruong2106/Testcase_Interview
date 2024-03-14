@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ScoreManager : NewMonoBehaviour
 {
-    private int score = 0;
+    [SerializeField] private int score = 0;
     public static ScoreManager Instance { get; private set; }
     public delegate void ScoreChangedEventHandler(int newScore);
     public event ScoreChangedEventHandler OnScoreChanged;

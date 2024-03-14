@@ -2,11 +2,15 @@ using UnityEngine;
 
 public class TilePressandhold : Tile
 {
+    [Header("Tile Press And Hold")]
     private SpriteRenderer spriteRenderer;
     private Gradient gradient;
     private MaterialPropertyBlock propertyBlock;
     [SerializeField] protected Color mainColor = Color.blue;
     [SerializeField] private bool isPressed = false;
+    [SerializeField] private float timeToIncrement = 1f;
+    [SerializeField] private int pointsPerIncrement = 1;
+     private float pressTime = 0f;
     protected override void Start()
     {
         base.Start();
@@ -29,9 +33,14 @@ public class TilePressandhold : Tile
             base.Update();
             if (isPressed)
             {
-                Vector3 mousePosition = Input.mousePosition;
-                Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-                float t = Mathf.InverseLerp(Screen.height, 0, worldMousePosition.y);
+                 float heldTime = Time.time - pressTime;
+                if (heldTime >= timeToIncrement)
+                {
+                    ScoreManager.Instance.AddScore(pointsPerIncrement);
+                    pressTime = Time.time;
+                }
+
+                float t = Mathf.InverseLerp(0f, timeToIncrement, heldTime);
                 Color color = gradient.Evaluate(t);
                 propertyBlock.SetColor("_Color", color);
                 spriteRenderer.SetPropertyBlock(propertyBlock);
@@ -39,19 +48,25 @@ public class TilePressandhold : Tile
         }
         else
         {
-            Debug.LogWarning("Không tìm thấy SpriteRenderer!");
+            Debug.LogWarning("Dont Find Sprite Render");
         }
     }
 
     private void OnMouseDown()
     {
-        isPressed = true;
-        Debug.Log(isPressed);
+        if(Input.GetMouseButtonDown(0))
+        {
+            isPressed = true;
+            pressTime = Time.time;
+        }
     }
 
     private void OnMouseUp()
     {
-        isPressed = false;
-        Debug.Log(isPressed);
+        if(Input.GetMouseButtonDown(0))
+        {
+            isPressed = false;
+            Debug.Log(isPressed);
+        }
     }
 }

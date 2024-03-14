@@ -1,7 +1,8 @@
 using UnityEngine;
 
 public class Tile : NewMonoBehaviour
-{
+{   
+    [Header("Tile")]
      [SerializeField] protected float speedfall;
 
     protected virtual void Update()
