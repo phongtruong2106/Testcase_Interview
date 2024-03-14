@@ -20,4 +20,9 @@ public class ScoreManager : NewMonoBehaviour
         score += points;
         OnScoreChanged?.Invoke(score); // Notify observers about score change
     }
+
+    public int Scores()
+    {
+        return this.score;
+    }
 }
