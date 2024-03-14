@@ -10,40 +10,41 @@ public class TilePressandhold : Tile
     [SerializeField] private bool isPressed = false;
     [SerializeField] private float timeToIncrement = 1f;
     [SerializeField] private int pointsPerIncrement = 1;
-     private float pressTime = 0f;
+    [SerializeField] private int pointsToAdd = 1;
+
+    private float pressTime = 0f;
     protected override void Start()
     {
         base.Start();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-
         gradient = new Gradient();
         gradient.SetKeys(
             new GradientColorKey[] { new GradientColorKey(Color.red, 0f), new GradientColorKey(Color.blue, 1f) },
             new GradientAlphaKey[] { new GradientAlphaKey(1f, 0f), new GradientAlphaKey(1f, 1f) }
         );
-
         propertyBlock = new MaterialPropertyBlock();
     }
 
     protected override void Update()
     {
         if (spriteRenderer != null)
-        {
-            
+        {  
             base.Update();
-            if (isPressed)
+            if(isPressed)
             {
-                 float heldTime = Time.time - pressTime;
-                if (heldTime >= timeToIncrement)
-                {
-                    ScoreManager.Instance.AddScore(pointsPerIncrement);
-                    pressTime = Time.time;
-                }
+                    float heldTime = Time.time - pressTime;
+                    if (heldTime >= timeToIncrement)
+                    {
+                        ScoreManager.Instance.AddScore(pointsPerIncrement);
+                        pressTime = Time.time;
+                    }
 
-                float t = Mathf.InverseLerp(0f, timeToIncrement, heldTime);
-                Color color = gradient.Evaluate(t);
-                propertyBlock.SetColor("_Color", color);
-                spriteRenderer.SetPropertyBlock(propertyBlock);
+                    float t = Mathf.InverseLerp(0f, timeToIncrement, heldTime);
+                    Color color = gradient.Evaluate(t);
+                    propertyBlock.SetColor("_Color", color);
+                    spriteRenderer.SetPropertyBlock(propertyBlock);
+                    isDE = true;
+                
             }
         }
         else
@@ -51,22 +52,35 @@ public class TilePressandhold : Tile
             Debug.LogWarning("Dont Find Sprite Render");
         }
     }
-
     private void OnMouseDown()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(isDE)
         {
-            isPressed = true;
-            pressTime = Time.time;
+            if(isPoint)
+            {
+                if(Input.GetMouseButtonDown(0))
+                {
+                    isPressed = true;
+                    pressTime = Time.time;
+                }
+            }
+            else
+            {
+                PointFailCounterManager.Instance.AddScore(pointsToAdd);
+                isDE = false;
+            }
         }
-    }
 
+    }
     private void OnMouseUp()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(isDE)
         {
-            isPressed = false;
-            Debug.Log(isPressed);
+            if(Input.GetMouseButtonDown(0))
+            {
+                isPressed = false;
+                Debug.Log(isPressed);
+            }
         }
     }
 }

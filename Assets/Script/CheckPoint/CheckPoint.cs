@@ -2,20 +2,17 @@ using UnityEngine;
 
 public class CheckPoint : NewMonoBehaviour
 {
-   [SerializeField] protected LayerMask targetLayer;
-   public bool isPoint;
+    [SerializeField] private int defaultPoint = 30;
+    [SerializeField] private int defaultPoint_1;
+    [SerializeField] protected Transform target_1;
+    [SerializeField] protected Transform target_2;
+    [SerializeField] protected Transform target_default;
 
-    protected override void Start()
+    protected virtual void MoveCheckPoint()
     {
-        base.Start();
-        this.isPoint = false;
-    }
-    protected virtual void OnTriggerEnter2D(Collider2D other)
-   {
-    
-        if(targetLayer == (targetLayer | (1 << other.gameObject.layer)))
+        if(ScoreManager.Instance.Scores() == defaultPoint)
         {
-            this.isPoint = true;
+            
         }
-   }
+    }
 }

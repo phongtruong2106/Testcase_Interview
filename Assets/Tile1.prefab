@@ -64,7 +64,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.105199695, y: -0.015028238}
@@ -93,7 +93,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedfall: 10
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  isPoint: 0
   color: {fileID: 2119977050937145523}
+  pointsToAdd: 1
 --- !u!50 &-6174738953691470318
 Rigidbody2D:
   serializedVersion: 4

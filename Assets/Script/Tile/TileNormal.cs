@@ -8,10 +8,23 @@ public class TileNormal : Tile
     [SerializeField] private int pointsToAdd = 1;
     protected virtual void OnMouseOver()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(isDE)
         {
-            color.color = Color.white;
-            ScoreManager.Instance.AddScore(pointsToAdd);
+            if(Input.GetMouseButtonDown(0))
+            {
+                if(isPoint)
+                {
+                    color.color = Color.white;
+                    ScoreManager.Instance.AddScore(pointsToAdd);
+                    isDE = true;
+                }
+                else
+                {
+                    color.color = Color.black;
+                    PointFailCounterManager.Instance.AddScore(pointsToAdd);
+                    isDE = false;
+                }
+            }
         }
     }
 }
