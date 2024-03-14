@@ -61,6 +61,7 @@ public class TilePressandhold : Tile
                 if(Input.GetMouseButtonDown(0))
                 {
                     isPressed = true;
+                    isPoint = true;
                     pressTime = Time.time;
                 }
             }

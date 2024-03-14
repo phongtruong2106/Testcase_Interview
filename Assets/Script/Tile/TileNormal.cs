@@ -17,6 +17,7 @@ public class TileNormal : Tile
                     color.color = Color.white;
                     ScoreManager.Instance.AddScore(pointsToAdd);
                     isDE = true;
+                    isInput = true;
                 }
                 else
                 {

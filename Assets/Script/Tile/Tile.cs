@@ -6,12 +6,14 @@ public class Tile : NewMonoBehaviour
     [SerializeField] protected float speedfall;
     [SerializeField] protected LayerMask targetLayer;
     protected bool isPoint;
+    public bool isInput;
     protected int countFail;
     protected bool isDE = true;
     protected override void Start()
     {
         base.Start();
         this.isPoint = false;
+        this.isInput = false;
     }
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
@@ -33,12 +35,14 @@ public class Tile : NewMonoBehaviour
     {
         MoveTile();
     }
+    public bool IsInput()
+    {
+        return isInput;
+    }
     protected virtual void MoveTile()
     {
         Vector3 currentPosition = transform.position;
         float newYPosition = currentPosition.y - (speedfall * Time.deltaTime);
         transform.position = new Vector3(currentPosition.x, newYPosition, currentPosition.z);
     }
-
-    
 }
