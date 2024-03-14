@@ -6,6 +6,9 @@ public class TileNormal : Tile
     [SerializeField] protected SpriteRenderer color;
     protected virtual void OnMouseOver()
     {
-        color.color = Color.white;
+        if(Input.GetMouseButtonDown(0))
+        {
+            color.color = Color.white;
+        }
     }
 }
