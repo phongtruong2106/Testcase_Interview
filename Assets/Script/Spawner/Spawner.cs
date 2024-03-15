@@ -40,33 +40,6 @@ public class Spawner : NewMonoBehaviour
             Debug.Log(transform.name + ": LoadTileController()", gameObject);
         }
     }
-    // protected virtual void spawnuntill()
-    // {
-    //     Transform position = freeposition();
-    //     if(position)
-    //     {
-    //         float randomValue = Random.Range(0f, 100f);
-    //         if (randomValue < (normalTileWeight / (normalTileWeight + pressAndHoldTileWeight)) * 100)
-    //         {
-    //             foreach(GameObject list in tileController._tileList.NormalTiles)
-    //             {
-    //                 GameObject tileNormal = Instantiate(list, position.transform.position, Quaternion.identity);
-    //                 tileNormal.transform.parent = position;
-    //             }
-    //         }
-    //         else
-    //         {
-    //             GameObject tilePressAndHold = Instantiate(tileController._tileList._pressAndHoldTile,position.transform.position, Quaternion.identity);
-    //             tilePressAndHold.transform.parent = position;
-    //         }
-    //         // GameObject tile = Instantiate(tileController._tileList._normalTile, position.transform.position, Quaternion.identity);
-    //         // tile.transform.parent = position;
-    //     }
-    //     if(freeposition())
-    //     {
-    //         Invoke("spawnuntill", delay);
-    //     }
-    // }
 
     protected virtual void spawnuntill()
     {

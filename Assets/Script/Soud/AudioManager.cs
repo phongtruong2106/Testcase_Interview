@@ -8,7 +8,7 @@ public class AudioManager : NewMonoBehaviour
     public static AudioManager Instance;
     [SerializeField] protected Sound[] musicSounds;
     [SerializeField] protected AudioSource musicSource;
-    [SerializeField] protected String nameMusic;
+    public String nameMusic;
 
     protected override void Awake()
     {

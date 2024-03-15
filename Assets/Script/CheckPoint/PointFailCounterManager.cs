@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PointFailCounterManager : NewMonoBehaviour
 {
-    [SerializeField] private int point = 0;
+    public int point = 0;
     [SerializeField] private int PointEndGame = 5;
     public static PointFailCounterManager Instance { get; private set; }
     public delegate void ScoreChangedEventHandler(int newScore);
@@ -41,6 +41,10 @@ public class PointFailCounterManager : NewMonoBehaviour
         if(point == PointEndGame)
         {
             isFinish = true;
+        }
+        else
+        {
+            isFinish = false;
         }
     }
 }

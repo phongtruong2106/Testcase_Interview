@@ -6,6 +6,7 @@ public class UIManager : NewMonoBehaviour
 {   
     [SerializeField] protected UIController uIController;
     [SerializeField] protected PointFailCounterManager pointFailCounterManager;
+    public PointFailCounterManager _pointFailCounterManager => pointFailCounterManager;
     [SerializeField] protected float pointStar_1 = 40;
     [SerializeField] protected float pointStar_2 = 100;
     [SerializeField] protected float pointStar_3 = 150;
@@ -20,6 +21,9 @@ public class UIManager : NewMonoBehaviour
         this.PressClosePanelPause();
         this.UpdateMaxValue();
         this.UpdateScoreFinish();
+        this.UpdateOpenPanelList();
+        this.UpdateClosePanelList();
+        // this.UpdateClosePanelFinish();
     }
     protected override void LoadComponents()
     {
@@ -106,5 +110,24 @@ public class UIManager : NewMonoBehaviour
             uIController._uIFinish.OpenPanelFinish(currentScore);
         }
     } 
+
+    protected virtual void UpdateClosePanelFinish()
+    {
+        if(pointFailCounterManager.isFinish == false)
+        {
+            uIController._uIFinish.ClosePanelFinish();
+        }
+    }
+
+    protected virtual void UpdateOpenPanelList()
+    {
+        uIController._IPanelList._buttonList.onClick.AddListener(uIController._IPanelList.OpenPanelList);
+        uIController._uIFinish._button_Playlist.onClick.AddListener(uIController._IPanelList.OpenPanelList);
+    }
+
+    protected virtual void UpdateClosePanelList()
+    {
+        uIController._IPanelList._buttonCLoseList.onClick.AddListener(uIController._IPanelList.ClosePanelList);
+    }
 
 }
