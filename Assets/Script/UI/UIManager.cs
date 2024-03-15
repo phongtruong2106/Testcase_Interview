@@ -10,7 +10,8 @@ public class UIManager : NewMonoBehaviour
     [SerializeField] protected float pointStar_1 = 40;
     [SerializeField] protected float pointStar_2 = 100;
     [SerializeField] protected float pointStar_3 = 150;
-    protected int currentScore;
+    public int currentScore;
+    
     protected bool isOpen = false;
 
     private void Update() {

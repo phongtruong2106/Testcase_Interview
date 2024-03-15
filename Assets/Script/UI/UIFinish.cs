@@ -48,6 +48,7 @@ public class UIFinish : NewMonoBehaviour
     {
         panel_Finishz.SetActive(false);
         uIManager._pointFailCounterManager.point = 0;
+        ScoreManager.Instance.score = 0;
         AudioManager.Instance.StartMusic();
         panel_Spawner.SetActive(true);
         Time.timeScale = 1;
