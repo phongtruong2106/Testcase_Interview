@@ -4,6 +4,7 @@ public class Tile : NewMonoBehaviour
 {   
     [Header("Tile")]
     [SerializeField] protected float speedfall;
+    public float _speedfall => speedfall;
     [SerializeField] protected LayerMask targetLayer;
     protected bool isPoint;
     public bool isInput;
