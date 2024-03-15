@@ -5,9 +5,11 @@ using UnityEngine;
 public class UIManager : NewMonoBehaviour
 {   
     [SerializeField] protected UIController uIController;
-    [SerializeField] protected int pointStar_1 = 100;
-    [SerializeField] protected int pointStar_2 = 140;
-    [SerializeField] protected int pointStar_3 = 240;
+    [SerializeField] protected PointFailCounterManager pointFailCounterManager;
+    [SerializeField] protected float pointStar_1 = 40;
+    [SerializeField] protected float pointStar_2 = 100;
+    [SerializeField] protected float pointStar_3 = 150;
+    protected int currentScore;
     protected bool isOpen = false;
 
     private void Update() {
@@ -16,11 +18,21 @@ public class UIManager : NewMonoBehaviour
         this.UpdateCheckStar();
         this.PressOpenPanelPause();
         this.PressClosePanelPause();
+        this.UpdateMaxValue();
+        this.UpdateScoreFinish();
     }
     protected override void LoadComponents()
     {
         base.LoadComponents();
         this.LoadUIController();
+        this.LoadPointFailCounterManager();
+    }
+
+    protected virtual void LoadPointFailCounterManager()
+    {
+        if(this.pointFailCounterManager != null) return;
+        this.pointFailCounterManager = FindAnyObjectByType<PointFailCounterManager>();
+        Debug.Log(transform.name + ": LoadPointFailCounterManager()", gameObject);
     }
     protected virtual void LoadUIController()
     {
@@ -31,14 +43,27 @@ public class UIManager : NewMonoBehaviour
 
     protected virtual void UpdateScore()
     {
-        int currentScore = ScoreManager.Instance.Scores();
+        currentScore = ScoreManager.Instance.Scores();
         uIController._uIScore._score.text = currentScore.ToString();
     }
 
     protected virtual void UpdateStarSlide()
     {
-        int currentScore = ScoreManager.Instance.Scores();
+        currentScore = ScoreManager.Instance.Scores();
         uIController._uiSliderStar.slider.value = currentScore;
+    }
+
+    protected virtual void UpdateMaxValue()
+    {
+        int maxValue;
+        uIController._uiSliderStar.slider.maxValue  = AudioManager.Instance.GetEndMusicTime();
+        maxValue = Mathf.FloorToInt(uIController._uiSliderStar.slider.maxValue);
+
+        int starRange = maxValue / 3;
+        pointStar_1 = starRange;
+        pointStar_2 = 2 * starRange;
+        pointStar_3 = 3 * starRange;
+        
     }
 
     protected virtual void UpdateCheckStar()
@@ -74,4 +99,12 @@ public class UIManager : NewMonoBehaviour
             isOpen = false;
         }
     }
+    protected virtual void UpdateScoreFinish()
+    {
+        if(AudioManager.Instance.IsMusicEnd() || pointFailCounterManager.isFinish)
+        {
+            uIController._uIFinish.OpenPanelFinish(currentScore);
+        }
+    } 
+
 }

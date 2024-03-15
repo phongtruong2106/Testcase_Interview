@@ -10,11 +10,16 @@ public class Tile : NewMonoBehaviour
     public bool isInput;
     protected int countFail;
     protected bool isDE = true;
+
+    private float elapsedTime;
+    private const float timePerMinute = 60f;
+    private const float speedIncreasePerMinute = 5f;
     protected override void Start()
     {
         base.Start();
         this.isPoint = false;
         this.isInput = false;
+        this.elapsedTime = 0f;
     }
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
@@ -35,6 +40,7 @@ public class Tile : NewMonoBehaviour
     protected virtual void Update()
     {
         MoveTile();
+        UpdateSpeed();
     }
     public bool IsInput()
     {
@@ -45,5 +51,15 @@ public class Tile : NewMonoBehaviour
         Vector3 currentPosition = transform.position;
         float newYPosition = currentPosition.y - (speedfall * Time.deltaTime);
         transform.position = new Vector3(currentPosition.x, newYPosition, currentPosition.z);
+    }
+
+    protected void UpdateSpeed()
+    {
+        elapsedTime += Time.deltaTime;
+        if (elapsedTime >= timePerMinute)
+        {
+            speedfall += speedIncreasePerMinute;
+            elapsedTime -= timePerMinute;
+        }
     }
 }

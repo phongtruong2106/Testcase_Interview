@@ -96,7 +96,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 128
-  isPoint: 0
+  isInput: 0
   color: {fileID: 2119977050937145523}
   pointsToAdd: 1
 --- !u!50 &-6174738953691470318

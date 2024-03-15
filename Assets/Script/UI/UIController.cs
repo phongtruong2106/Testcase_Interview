@@ -14,6 +14,8 @@ public class UIController : NewMonoBehaviour
     public UIGamePause _uIGamePause => uIGamePause;
     [SerializeField] protected UIGame uIGame;
     public UIGame _uIGame => uIGame;
+    [SerializeField] protected UIFinish uIFinish;
+    public UIFinish _uIFinish => uIFinish;
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -23,6 +25,7 @@ public class UIController : NewMonoBehaviour
         this.LoadCheckCountForStar();
         this.LoadUIGamePause();
         this.LoadUIGame();
+        this.LoadUIFinish();
     }
     
     protected virtual void LoadUIScore()
@@ -31,13 +34,18 @@ public class UIController : NewMonoBehaviour
         this.uIScore = transform.parent.GetComponentInChildren<UIScore>();
         Debug.Log(transform.name + ":LoadUIScore()", gameObject);
     }
+    protected virtual void LoadUIFinish()
+    {
+        if(this.uIFinish != null) return;
+        this.uIFinish = transform.parent.GetComponentInChildren<UIFinish>();
+        Debug.Log(transform.name + ":LoadUIFinish()", gameObject);
+    }
     protected virtual void LoadUIGame()
     {
         if(this.uIGame != null) return;
         this.uIGame = transform.parent.GetComponentInChildren<UIGame>();
         Debug.Log(transform.name + ":LoadUIGame()", gameObject);
     }
-    
     protected virtual void LoadUIGamePause()
     {
         if(this.uIGamePause != null) return;

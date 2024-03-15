@@ -57,12 +57,12 @@ public class AudioManager : NewMonoBehaviour
 
    public float GetCurrentMusicTime()
     {
-        return musicSource.time;
+        return Mathf.FloorToInt(musicSource.time);
     }
 
     public float GetEndMusicTime()
     {
-        return musicSource.clip.length;
+        return Mathf.FloorToInt(musicSource.clip.length);
     }
     public bool IsMusicEnd()
     {

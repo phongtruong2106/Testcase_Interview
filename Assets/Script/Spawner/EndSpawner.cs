@@ -11,7 +11,6 @@ public class EndSpawner : MonoBehaviour
         if(targetLayer == (targetLayer | (1 << other.gameObject.layer)))
         {
             Destroy(other.gameObject);
-            //if()
         }
    }
 }

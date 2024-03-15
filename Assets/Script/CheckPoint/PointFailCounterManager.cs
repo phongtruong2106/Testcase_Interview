@@ -9,6 +9,12 @@ public class PointFailCounterManager : NewMonoBehaviour
     public static PointFailCounterManager Instance { get; private set; }
     public delegate void ScoreChangedEventHandler(int newScore);
     public event ScoreChangedEventHandler OnScoreChanged;
+    public bool isFinish;
+    protected override void Start()
+    {
+        base.Start();
+        this.isFinish = false;
+    }
 
     protected override void Awake()
     {
@@ -24,7 +30,7 @@ public class PointFailCounterManager : NewMonoBehaviour
     public void AddScore(int points)
     {
         point += points;
-        OnScoreChanged?.Invoke(point); // Notify observers about score change
+        OnScoreChanged?.Invoke(point);
     }
     public int ScoresPointFail()
     {
@@ -34,7 +40,7 @@ public class PointFailCounterManager : NewMonoBehaviour
     {
         if(point == PointEndGame)
         {
-            Debug.Log("End");
+            isFinish = true;
         }
     }
 }

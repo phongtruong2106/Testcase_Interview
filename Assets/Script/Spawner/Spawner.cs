@@ -40,23 +40,34 @@ public class Spawner : NewMonoBehaviour
             Debug.Log(transform.name + ": LoadTileController()", gameObject);
         }
     }
+    // protected virtual void spawnuntill()
+    // {
+    //     Transform position = freeposition();
+    //     if(position)
+    //     {
+    //         float randomValue = Random.Range(0f, 100f);
+    //         if (randomValue < (normalTileWeight / (normalTileWeight + pressAndHoldTileWeight)) * 100)
+    //         {
+    //             foreach(GameObject list in tileController._tileList.NormalTiles)
+    //             {
+    //                 GameObject tileNormal = Instantiate(list, position.transform.position, Quaternion.identity);
+    //                 tileNormal.transform.parent = position;
+    //             }
+    //         }
+    //         else
+    //         {
+    //             GameObject tilePressAndHold = Instantiate(tileController._tileList._pressAndHoldTile,position.transform.position, Quaternion.identity);
+    //             tilePressAndHold.transform.parent = position;
+    //         }
+    //         // GameObject tile = Instantiate(tileController._tileList._normalTile, position.transform.position, Quaternion.identity);
+    //         // tile.transform.parent = position;
+    //     }
+    //     if(freeposition())
+    //     {
+    //         Invoke("spawnuntill", delay);
+    //     }
+    // }
 
-    protected virtual void spawner()
-    {   
-        //tam thoi
-        foreach (Transform child in transform)
-        {
-            float randomValue = Random.Range(0f, 100f);
-            if (randomValue < (normalTileWeight / (normalTileWeight + pressAndHoldTileWeight)) * 100)
-            {
-                Instantiate(tileController._tileList._normalTile, child.position, Quaternion.identity, child);
-            }
-            else
-            {
-                Instantiate(tileController._tileList._pressAndHoldTile, child.position, Quaternion.identity, child);
-            }
-        }
-    }
     protected virtual void spawnuntill()
     {
         Transform position = freeposition();
@@ -65,21 +76,43 @@ public class Spawner : NewMonoBehaviour
             float randomValue = Random.Range(0f, 100f);
             if (randomValue < (normalTileWeight / (normalTileWeight + pressAndHoldTileWeight)) * 100)
             {
-                GameObject tileNormal = Instantiate(tileController._tileList._normalTile, position.transform.position, Quaternion.identity);
-                tileNormal.transform.parent = position;
+                GameObject selectedTile = ChooseTileFromList(tileController._tileList.NormalTiles);
+                if (selectedTile != null)
+                {
+                    GameObject tileNormal = Instantiate(selectedTile, position.transform.position, Quaternion.identity);
+                    tileNormal.transform.parent = position;
+                }
             }
             else
             {
-                GameObject tilePressAndHold = Instantiate(tileController._tileList._pressAndHoldTile,position.transform.position, Quaternion.identity);
+                GameObject tilePressAndHold = Instantiate(tileController._tileList._pressAndHoldTile, position.transform.position, Quaternion.identity);
                 tilePressAndHold.transform.parent = position;
             }
-            // GameObject tile = Instantiate(tileController._tileList._normalTile, position.transform.position, Quaternion.identity);
-            // tile.transform.parent = position;
         }
         if(freeposition())
         {
             Invoke("spawnuntill", delay);
         }
+    }
+
+    protected virtual GameObject ChooseTileFromList(List<GameObject> tileList)
+    {
+        float totalWeight = 0f;
+        foreach (GameObject tile in tileList)
+        {
+            totalWeight += 1f;
+        }
+        float randomWeight = Random.Range(0f, totalWeight);
+        float weightSum = 0f;
+        foreach (GameObject tile in tileList)
+        {
+            weightSum += 1f;
+            if (randomWeight <= weightSum)
+            {
+                return tile;
+            }
+        }
+        return null;
     }
 
     protected virtual bool CheckForEmpty()
